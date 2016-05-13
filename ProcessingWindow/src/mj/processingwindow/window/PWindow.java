@@ -7,6 +7,13 @@ import processing.event.MouseEvent;
 
 /**
  * a first attempt to get something like a draggable window within processing.
+ * used rcectMode(CORNER)
+ * 
+ * 1. the heading area is for dragging, its only possible to drag a window if the mouse is inside the dragging area
+ * 2. on the right side of the dragging area is a area to open or close the window but not feasible for dragging
+ * 3. different contains methods are needed 
+ *    first is the window content area for as it is implemented now
+ *    contains darggable area and contains opened close area
  * 
  * TODO: a WindowGroup is needed to set the drawing order if more than one window exists within a sketch.
  * TODO: show and hide function as well as a close function.
@@ -25,6 +32,9 @@ public class PWindow extends PComponent{
 	
 	private float xOffset;
 	private float yOffset;
+	
+	//to indicate if the window area is visible 
+	private boolean opened; 
 	
 	/**
 	 * parameterized constructor. 
@@ -53,6 +63,33 @@ public class PWindow extends PComponent{
 	}
 	
 	/**
+	 * sets if the window is opened = true or closed = false.
+	 * @param opened boolean
+	 */
+	public void setOpened(boolean opened){
+		this.opened = opened;
+	}
+	
+	/**
+	 * 
+	 * @return the status if opened or closed
+	 */
+	public boolean isOpened(){
+		return this.opened;
+	}
+	
+	/**
+	 * toggle the opened status
+	 */
+	public void toggleOpened(){
+		if(this.opened){
+			this.opened = false;
+		}else{
+			this.opened = true;
+		}
+	}
+	
+	/**
 	 * the mouseEvent() method is needed to bring mouse behavior to objects. <br>
 	 * this method is needed instead of using MouseListener implementations.
 	 * implementation based on Processing's <a href="https://processing.org/examples/mousefunctions.html">mouse functions</a> example.
@@ -69,43 +106,46 @@ public class PWindow extends PComponent{
 	 */
 	public void mouseEvent(MouseEvent event){
 		//System.out.println(event.toString());
+		//set the lock of the window to true if the window is clicked or the mouse button pressed
 		if (event.getAction() == 1) {
-			if (contains(event.getX(), event.getY())){
+			//if (contains(event.getX(), event.getY())){
+			if (containsHeadArea(event.getX(), event.getY())){
 				setLocked(true);
 				xOffset = event.getX() - this.getX();
 				yOffset = event.getY() - this.getY();
+			}else if(containsOpenedArea(event.getX(), event.getY())){
+				toggleOpened();
 			}
 		}
-		
+		//drags the window around 
 		if (event.getAction() == 4) {
 			if (this.isLocked()) {
 				this.setLocation(event.getX() - xOffset, event.getY() - yOffset);
 			}
 		}
-		
+		//unlock if the mouse is released
 		if (event.getAction() == 2) {
 			this.setLocked(false);
 		}
 	}
 	
-	
-	//*********************************
-	//Override PComponent Methods
-	//*********************************
 	/**
 	 * to draw the window onto the canvas
 	 */
 	@Override
 	public void draw(){
-		// draw window display area
-		p.stroke(0);
-		p.fill(255);
 		p.rectMode(PConstants.CORNER);
-		p.rect(getX(), getY() - 20, getWidth(), getHeight() + 20);
-		
 		//draw head not belonging to the display area
+		p.stroke(0);
 		p.fill(200);
 		p.rect(getX(), getY() - 20, getWidth(), 20);
+		
+		// draw window display area
+		if(isOpened()){
+			p.stroke(0);
+			p.fill(255);
+			p.rect(getX(), getY(), getWidth(), getHeight());
+		}
 	}
 	
 	/**
@@ -124,4 +164,50 @@ public class PWindow extends PComponent{
 		}
 		return returnValue;
 	}	
+	
+	/**
+	 * check whether the coordinate (x, y) falls inside the opened area
+	 * 
+	 * @param x the coordinates x value
+	 * @param y the coordinates y value
+	 * @return true if the coordinate are within the opened area
+	 */
+	public boolean containsOpenedArea(float x, float y){
+		boolean opened = false;
+		if (x > this.getX() + this.getWidth() - 20 && x < this.getX() + this.getWidth()) {
+			if (y > this.getY() - 20 && y < this.getY()) {
+				opened = true;
+			}
+		}
+		
+		return opened;
+	}
+	
+	/**
+	 * checks whether the coordinate (x, y) falls inside the head area
+	 * 
+	 * @param x the coordinates x value
+	 * @param y the coordinate y value
+	 * @return true or false
+	 */
+	public boolean containsHeadArea(float x, float y){
+		boolean returnValue = false;
+		
+		if (x > this.getX() && x < this.getX() + this.getWidth() - 20) {
+			if (y > this.getY() - 20 && y < this.getY()) {
+				returnValue = true;
+			}
+		}
+		return returnValue;
+	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	private void drawDown(float x, float y){
+		
+	}
+	
 }
