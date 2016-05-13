@@ -36,6 +36,11 @@ public class PWindow extends PComponent{
 	//to indicate if the window area is visible 
 	private boolean opened; 
 	
+	//to indicate which window has the focus = a window group is needed
+	//only one window group per sketch
+	//one window can have the focus
+	private boolean focus;
+	
 	/**
 	 * parameterized constructor. 
 	 * @param p the PApplet to draw the PWindow on
