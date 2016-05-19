@@ -25,23 +25,27 @@ public class ExamplePWindow extends PApplet{
 		w1 = new PWindow(this);
 		w1.setLocation(width/2, height/2);
 		w1.setSize(150, 150);
+		w1.setLable("Window 1");
 		this.registerMethod("mouseEvent", w1);
 		
 		w2 = new PWindow(this);
 		w2.setLocation(30, 30);
 		w2.setSize(200, 100);
+		w2.setLable("Window 2");
+		w2.setOpened(true);
 		this.registerMethod("mouseEvent", w2);
 		
 		w3 = new PWindow(this);
 		w3.setLocation(500, 500);
 		w3.setSize(150, 150);
+		w3.setLable("Window 3");
 		this.registerMethod("mouseEvent", w3);
 		
 		wg = PWindowGroup.getInstance();
 		this.registerMethod("mouseEvent", wg);
-		wg.addPWindow(w1);
-		wg.addPWindow(w2);
-		wg.addPWindow(w3);
+		wg.add(w1);
+		wg.add(w2);
+		wg.add(w3);
 	}
 	
 	public void draw(){

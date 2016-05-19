@@ -43,12 +43,20 @@ public final class PWindowGroup {
 	}
 	
 	/**
-	 * to add a window to the WindowGroup
-	 * @param window a window object
+	 * to add a window to the WindowGroup. wraps ArrayList.add(Object o).
+	 * @param window the window object
 	 */
-	public void addPWindow(PWindow window){
+	public void add(PWindow window){
 		array.add(window);
-		System.out.println(window.getComponentId());
+	}
+	
+	/**
+	 * removes the window from the window group. wraps ArrayList.remove(Object o).
+	 * @param window the object to be removed
+	 * @return true if successful
+	 */
+	public boolean remove(PWindow window){
+		return array.remove(window);
 	}
 	
 	/**

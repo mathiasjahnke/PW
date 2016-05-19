@@ -3,6 +3,7 @@ package mj.processingwindow.window;
 import mj.processing.button.PComponent;
 import processing.core.PApplet;
 import processing.core.PConstants;
+import processing.core.PFont;
 import processing.event.MouseEvent;
 
 /**
@@ -15,8 +16,7 @@ import processing.event.MouseEvent;
  *    first is the window content area for as it is implemented now
  *    contains darggable area and contains opened close area
  * 
- * TODO: a WindowGroup is needed to set the drawing order if more than one window exists within a sketch.
- * TODO: show and hide function as well as a close function.
+ * TODO: set at title
  * TODO: make the window resizable.
  * 
  * @author Mathias Jahnke, Technische Universit&auml;t M&uuml;nchen, <a href="http://www.lfk.bgu.tum.de">Chair of Cartography</a>
@@ -36,10 +36,9 @@ public class PWindow extends PComponent{
 	//to indicate if the window area is visible 
 	private boolean opened; 
 	
-	//to indicate which window has the focus = a window group is needed
-	//only one window group per sketch
-	//one window can have the focus
-	//private boolean focus;
+	//a window title
+	private PFont labelFont; 
+	private String label;
 	
 	/**
 	 * parameterized constructor. 
@@ -48,7 +47,8 @@ public class PWindow extends PComponent{
 	public PWindow(PApplet p){
 		this.p = p;
 		this.locked = false;
-		//this.focus = false;
+		this.label = "Window";
+		labelFont = p.createFont("Arial", 14, true);
 	}
 	
 	/**
@@ -93,6 +93,22 @@ public class PWindow extends PComponent{
 		}else{
 			this.opened = true;
 		}
+	}
+	
+	/**
+	 * sets the label or title of the window
+	 * @param label the label or title
+	 */
+	public void setLable(String label){
+		this.label = label;
+	}
+	
+	/**
+	 * retrieves the label or title of the window
+	 * @return the label or title as String
+	 */
+	public String getLabel(){
+		return this.label;
 	}
 	
 	/**
@@ -148,6 +164,12 @@ public class PWindow extends PComponent{
 		p.stroke(190);
 		p.fill(190);
 		p.rect(getX() + getWidth() - 25, getY() - 25, 25, 25);
+		
+		//draw label
+		p.textAlign(PConstants.LEFT, PConstants.BOTTOM);
+		p.textFont(labelFont);
+		p.fill(150);
+		p.text(label, getX() + 3, getY() - 4);
 		
 		// draw window display area
 		if(isOpened()){
