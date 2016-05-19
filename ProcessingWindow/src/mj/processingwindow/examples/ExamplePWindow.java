@@ -22,12 +22,14 @@ public class ExamplePWindow extends PApplet{
 	}
 	
 	public void setup(){
+		//the first window
 		w1 = new PWindow(this);
 		w1.setLocation(width/2, height/2);
 		w1.setSize(150, 150);
 		w1.setLable("Window 1");
 		this.registerMethod("mouseEvent", w1);
 		
+		//the second window
 		w2 = new PWindow(this);
 		w2.setLocation(30, 30);
 		w2.setSize(200, 100);
@@ -35,12 +37,14 @@ public class ExamplePWindow extends PApplet{
 		w2.setOpened(true);
 		this.registerMethod("mouseEvent", w2);
 		
+		//the third window
 		w3 = new PWindow(this);
 		w3.setLocation(500, 500);
 		w3.setSize(150, 150);
 		w3.setLable("Window 3");
 		this.registerMethod("mouseEvent", w3);
 		
+		//the window group
 		wg = PWindowGroup.getInstance();
 		this.registerMethod("mouseEvent", wg);
 		wg.add(w1);
@@ -55,24 +59,4 @@ public class ExamplePWindow extends PApplet{
 		wg.draw();
 		
 	}
-	
-//	public void mousePressed(){
-//		if (window.contains(mouseX, mouseY)) {
-//			window.setLocked(true);
-//		}
-//		xOffset = mouseX - window.getX();
-//		yOffset = mouseY - window.getY();
-//	
-//	}
-//	
-//	public void mouseDragged(){
-//		if (window.isLocked()) {
-//			window.setLocation(mouseX - xOffset, mouseY - yOffset);
-//		}
-//	}
-//	
-//	public void mouseReleased(){
-//		window.setLocked(false);
-//	}
-
 }
