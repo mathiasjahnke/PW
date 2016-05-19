@@ -39,7 +39,7 @@ public class PWindow extends PComponent{
 	//to indicate which window has the focus = a window group is needed
 	//only one window group per sketch
 	//one window can have the focus
-	private boolean focus;
+	//private boolean focus;
 	
 	/**
 	 * parameterized constructor. 
@@ -48,6 +48,7 @@ public class PWindow extends PComponent{
 	public PWindow(PApplet p){
 		this.p = p;
 		this.locked = false;
+		//this.focus = false;
 	}
 	
 	/**
@@ -141,23 +142,27 @@ public class PWindow extends PComponent{
 	public void draw(){
 		p.rectMode(PConstants.CORNER);
 		//draw head not belonging to the display area
-		p.stroke(200);
-		p.fill(200);
+		p.stroke(210);
+		p.fill(210);
 		p.rect(getX(), getY() - 25, getWidth(), 25);
+		p.stroke(190);
+		p.fill(190);
+		p.rect(getX() + getWidth() - 25, getY() - 25, 25, 25);
 		
 		// draw window display area
 		if(isOpened()){
-			drawUpArrow(getX() + getWidth() - 14, getY() - 15);
+			drawUpArrow(getX() + getWidth() - 16, getY() - 15);
 			p.stroke(240);
 			p.fill(240);
 			p.rect(getX(), getY(), getWidth(), getHeight());
 		}else {
-			drawDownArrow(getX() + getWidth() - 14, getY() - 15);
+			drawDownArrow(getX() + getWidth() - 16, getY() - 15);
 		}
 	}
 	
 	/**
-	 * checks whether the coordinate (x, y) falls within the window
+	 * checks whether the coordinate (x, y) falls within the window. 
+	 * works only if the window is opened.
 	 * @param x the coordinate's x value
 	 * @param y the coordinate's y value
 	 * @return true if the coordinate are within the window otherwise false
@@ -165,9 +170,11 @@ public class PWindow extends PComponent{
 	@Override
 	public boolean contains(float x, float y){
 		boolean returnValue = false;
-		if (x > this.getX() && x < this.getX() + this.getWidth()) {
-			if (y > this.getY() && y < this.getY() + this.getHeight()) {
-				returnValue = true;
+		if(isOpened()){
+			if (x > this.getX() && x < this.getX() + this.getWidth()) {
+				if (y > this.getY() && y < this.getY() + this.getHeight()) {
+					returnValue = true;
+				}
 			}
 		}
 		return returnValue;
