@@ -20,7 +20,7 @@ public class ExamplePWindow extends PApplet{
 	public void setup(){
 		w1 = new PWindow(this);
 		w1.setLocation(width/2, height/2);
-		w1.setSize(150, 100);
+		w1.setSize(150, 150);
 		this.registerMethod("mouseEvent", w1);
 		
 		w2 = new PWindow(this);

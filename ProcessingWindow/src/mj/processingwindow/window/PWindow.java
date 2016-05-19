@@ -141,15 +141,18 @@ public class PWindow extends PComponent{
 	public void draw(){
 		p.rectMode(PConstants.CORNER);
 		//draw head not belonging to the display area
-		p.stroke(0);
+		p.stroke(200);
 		p.fill(200);
-		p.rect(getX(), getY() - 20, getWidth(), 20);
+		p.rect(getX(), getY() - 25, getWidth(), 25);
 		
 		// draw window display area
 		if(isOpened()){
-			p.stroke(0);
-			p.fill(255);
+			drawUpArrow(getX() + getWidth() - 14, getY() - 15);
+			p.stroke(240);
+			p.fill(240);
 			p.rect(getX(), getY(), getWidth(), getHeight());
+		}else {
+			drawDownArrow(getX() + getWidth() - 14, getY() - 15);
 		}
 	}
 	
@@ -179,8 +182,8 @@ public class PWindow extends PComponent{
 	 */
 	public boolean containsOpenedArea(float x, float y){
 		boolean opened = false;
-		if (x > this.getX() + this.getWidth() - 20 && x < this.getX() + this.getWidth()) {
-			if (y > this.getY() - 20 && y < this.getY()) {
+		if (x > this.getX() + this.getWidth() - 25 && x < this.getX() + this.getWidth()) {
+			if (y > this.getY() - 25 && y < this.getY()) {
 				opened = true;
 			}
 		}
@@ -198,8 +201,8 @@ public class PWindow extends PComponent{
 	public boolean containsHeadArea(float x, float y){
 		boolean returnValue = false;
 		
-		if (x > this.getX() && x < this.getX() + this.getWidth() - 20) {
-			if (y > this.getY() - 20 && y < this.getY()) {
+		if (x > this.getX() && x < this.getX() + this.getWidth() - 25) {
+			if (y > this.getY() - 25 && y < this.getY()) {
 				returnValue = true;
 			}
 		}
@@ -211,8 +214,21 @@ public class PWindow extends PComponent{
 	 * @param x
 	 * @param y
 	 */
-	private void drawDown(float x, float y){
-		
+	private void drawDownArrow(float x, float y){
+		p.stroke(255);
+		p.fill(255);
+		p.triangle(x, y, x + 8, y, x + 4, y + 7);
+	}
+	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	private void drawUpArrow(float x, float y){
+		p.stroke(255);
+		p.fill(255);
+		p.triangle(x, y + 7, x + 8, y + 7, x + 4, y);
 	}
 	
 }
