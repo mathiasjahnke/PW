@@ -1,6 +1,9 @@
 package mj.processingwindow.window;
 
+import java.util.ArrayList;
+
 import mj.processing.button.PComponent;
+import mj.processing.button.PIComponent;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PFont;
@@ -40,6 +43,9 @@ public class PWindow extends PComponent{
 	private PFont labelFont; 
 	private String label;
 	
+	//Array to add some components
+	private ArrayList<PIComponent> compArray;
+	
 	/**
 	 * parameterized constructor. 
 	 * @param p the PApplet to draw the PWindow on
@@ -49,6 +55,7 @@ public class PWindow extends PComponent{
 		this.locked = false;
 		this.label = "Window";
 		labelFont = p.createFont("Arial", 14, true);
+		this.compArray = new ArrayList<PIComponent>();
 	}
 	
 	/**
@@ -143,6 +150,9 @@ public class PWindow extends PComponent{
 		if (event.getAction() == 4) {
 			if (this.isLocked()) {
 				this.setLocation(event.getX() - xOffset, event.getY() - yOffset);
+				for(int i = 0; i < compArray.size(); i++){
+					compArray.get(i).setLocation(event.getX() - xOffset + 12, event.getY() - yOffset + 15 + (i * 25));
+				}
 			}
 		}
 		//unlock if the mouse is released
@@ -177,6 +187,10 @@ public class PWindow extends PComponent{
 			p.stroke(240);
 			p.fill(240);
 			p.rect(getX(), getY(), getWidth(), getHeight());
+			//draw all the components
+			for(int i = 0; i < compArray.size(); i++){
+				compArray.get(i).draw();
+			}
 		}else {
 			drawDownArrow(getX() + getWidth() - 16, getY() - 15);
 		}
@@ -236,6 +250,23 @@ public class PWindow extends PComponent{
 			}
 		}
 		return returnValue;
+	}
+	
+	/**
+	 * to add some components to the window
+	 * @param component the PIComponent to add
+	 */
+	public void add(PIComponent component){
+		component.setLocation(this.getX() + 12, this.getY() + 15 + (compArray.size() * 25));
+		compArray.add(component);
+	}
+	
+	/**
+	 * to remove components from the window
+	 * @param component the PIComponent to remove
+	 */
+	public void remove(PIComponent component){
+		compArray.remove(component);
 	}
 	
 	/**
