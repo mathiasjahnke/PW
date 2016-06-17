@@ -82,8 +82,6 @@ public class ExamplePWindowWithComponents extends PApplet{
 	
 	public void draw(){
 		background(255);
-		//w1.draw();
-		//w2.draw();
 		wg.draw();
 		
 	}
